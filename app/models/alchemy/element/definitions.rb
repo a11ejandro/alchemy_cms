@@ -13,7 +13,7 @@ module Alchemy
       # your own set of elements
       #
       def definitions
-        @definitions ||= read_definitions_file.map(&:with_indifferent_access)
+        @definitions ||= read_definitions_files.map(&:with_indifferent_access)
       end
 
       # Returns one element definition by given name.
@@ -24,20 +24,24 @@ module Alchemy
 
       private
 
-      # Reads the element definitions file named +elements.yml+ from +config/alchemy/+ folder.
+      # Reads the element definitions folder named +elements+ from +config/alchemy/+ folder.
       #
-      def read_definitions_file
-        if ::File.exist?(definitions_file_path)
-          ::YAML.safe_load(ERB.new(File.read(definitions_file_path)).result, YAML_WHITELIST_CLASSES, [], true) || []
+      def read_definitions_files
+        if ::Dir.exist?(definitions_files_path)
+          ::Dir.new(definitions_files_path).each.each_with_object([]) do |file, memo|
+            if file.include?('.yml')
+              memo << ::YAML.safe_load(ERB.new(File.read(Rails.root.join("config/alchemy/elements/#{file}"))).result, YAML_WHITELIST_CLASSES, [], true) || []
+            end
+          end.flatten
         else
-          raise LoadError, "Could not find elements.yml file! Please run `rails generate alchemy:scaffold`"
+          raise LoadError, "Could not find elements folder with files! Please run `rails generate alchemy:scaffold`"
         end
       end
-
-      # Returns the +elements.yml+ file path
+      
+      # Returns the +elements+ folder path
       #
-      def definitions_file_path
-        Rails.root.join 'config/alchemy/elements.yml'
+      def definitions_files_path
+        Rails.root.join('config/alchemy/elements')
       end
     end
 
