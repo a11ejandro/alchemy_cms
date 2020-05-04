@@ -28,6 +28,7 @@ module Alchemy
       #
       def render(name, options = {}, html_options = {})
         content = element.content_by_name(name)
+        p 'content!!!!!!!', content
         return if content.nil?
 
         helpers.render(content, {
