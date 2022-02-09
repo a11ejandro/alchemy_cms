@@ -1,0 +1,125 @@
+- name: header
+  unique: true
+  contents:
+    - name: image
+      type: EssencePicture
+
+- name: headline
+  contents:
+    - name: headline
+      type: EssenceHeadline
+
+- name: article
+  taggable: true
+  contents:
+    - name: intro
+      type: EssenceText
+    - name: headline
+      type: EssenceText
+      settings:
+        linkable: true
+    - name: image
+      type: EssencePicture
+      settings:
+        size: 450x300
+        crop: true
+    - name: text
+      type: EssenceRichtext
+
+- name: text
+  contents:
+    - name: text
+      type: EssenceRichtext
+      settings:
+        sanitizer:
+          attributes: [href, target]
+          tags: [p, ol, ul, ul, li, em, strong]
+
+- name: search
+  contents: []
+
+- name: news
+  contents:
+    - name: date
+      type: EssenceDate
+    - name: news_headline
+      type: EssenceText
+      rss_title: true
+    - name: body
+      type: EssenceRichtext
+      rss_description: true
+
+- name: download
+  contents:
+    - name: file
+      type: EssenceFile
+
+- name: bild
+  contents:
+    - name: image
+      type: EssencePicture
+
+- name: contactform
+  unique: true
+  contents:
+    - name: mail_from
+      type: EssenceText
+      validate:
+        - presence
+    - name: mail_to
+      type: EssenceText
+      validate:
+        - presence
+    - name: subject
+      type: EssenceText
+      as_element_title: true
+      validate:
+        - presence
+    - name: success_page
+      type: EssencePage
+      validate:
+        - presence
+
+- name: all_you_can_eat
+  hint: true
+  taggable: true
+  contents:
+    - name: essence_text
+      type: EssenceText
+      hint: true
+    - name: essence_picture
+      type: EssencePicture
+      hint: true
+      settings:
+        size: 1200x480
+        crop: true
+    - name: essence_richtext
+      type: EssenceRichtext
+      hint: true
+    - name: essence_select
+      type: EssenceSelect
+      hint: true
+      settings:
+        select_values: [A, B, C]
+    - name: essence_boolean
+      type: EssenceBoolean
+      hint: true
+    - name: essence_date
+      type: EssenceDate
+      hint: true
+    - name: essence_audio
+      type: EssenceAudio
+      hint: true
+    - name: essence_file
+      type: EssenceFile
+      hint: true
+    - name: essence_video
+      type: EssenceVideo
+      hint: true
+    - name: essence_html
+      type: EssenceHtml
+      hint: true
+      deprecated: true
+    - name: essence_link
+      type: EssenceLink
+      hint: true
